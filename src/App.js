@@ -11,6 +11,8 @@ import store from './store/store';
 import AdminProduct from './Admin/AdminProduct';
 import AdminManageProduct from './Admin/AdminManageProduct';
 import ManageUsers from './Admin/ManageUsers';
+import History from './Components/cart/history';
+import OrderHistory from './Components/cart/orderdetail';
 
 export default function App() {
   return(
@@ -24,6 +26,8 @@ export default function App() {
           <Route path="/admin/products/:page?" element={< AdminProduct/>}/>
           <Route path="/admin/add/:name?" element={< AdminManageProduct/>}/>
           <Route path="/admin/users/:page?" element={<ManageUsers/>}/>
+          <Route path="/history" element={<History/>}/>
+          <Route path="/history/:id" element={<OrderHistory/>}/>
           <Route path="/:page?" element={<Home />}/>
           
       </Routes>

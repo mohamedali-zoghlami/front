@@ -4,7 +4,6 @@ import NavBar from "../navbar";
 import { useNavigate } from "react-router-dom";
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { decreaseQuantity, increaseQuantity, removeFromCart,removeAll } from '../../store/cartSlice';
-import { product } from "../../db";
 function Cart  ({})  
 
 { 
@@ -51,6 +50,14 @@ function Cart  ({})
           title:"Succes !",confirmButtonText: 'Cool',icon:"success"
           });
         navigate("/");
+      }
+      else
+      if(response.status===406)
+      {Swal.fire({
+        text:"Our stock is insufficient for meeting your order",
+        title:"Erreur !",confirmButtonText: 'OK',icon:"error"
+        });
+
       } 
     } catch (error) {
       Swal.fire({
