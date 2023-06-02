@@ -1,0 +1,115 @@
+.main_content2 {
+    flex-direction: row;
+    position: relative;
+    width: 30%;
+    height: 100%;
+    margin-left: 20%;
+    padding: 50px 0 0;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        
+  }
+  
+
+  .main_content2 h3 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #2d343e;
+    font-size: 10.5vw;
+  }
+  
+  .main_content2 .card2 {
+    
+    background-color: black;
+    text-align: center;
+    width: 150%;
+    height: 110%;
+
+    border-radius: 15px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-transform: scale(0.8);
+            transform: scale(0.8);
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    margin-bottom: 50px;
+  }
+  
+  .main_content2 .card2 .card_img2 {
+    margin-top: -5vw;
+  }
+  
+  .main_content2 .card2 .card_img2 img {
+    max-width: 200px;
+    height: 300px;
+  }
+  
+  .main_content2 .card2 .card_header2 {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    color: #fff;
+    margin: 25px 0;
+  }
+  
+  .main_content2 .card2 .card_header2 h2 {
+    font-size: 18px;
+  }
+  
+  .main_content2 .card2 .card_header2 p {
+    font-size: 14px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.3);
+    margin: 8px 0;
+  }
+  
+  .main_content2 .card2 .card_header2 .price2 {
+    font-size: 25px;
+    color: #fe8033;
+  }
+  
+  .main_content2 .card2 .card_header2 .price2 span {
+    font-size: 15px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  
+  .main_content2 .card2:hover {
+    background-color: black;
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+    cursor: pointer;
+  }
+  
+  .main_content2 .card2:hover .btn2 {
+    background-color: #fe8033;
+    color: #fff;
+  }
+  
+  .btn2 {
+    bottom: auto;
+    position: absolute;
+    left: 0;
+    text-align: center;
+    width: 130px;
+    height: 20px;
+    font-size: 14px;
+    border-radius: 35px;
+    background-color: grey;
+    color: white;
+    margin: auto;
+    cursor: pointer;
+    position: relative;
+    -webkit-transition: background-color .3s ease;
+    transition: background-color .3s ease;
+    overflow: hidden;
+  }

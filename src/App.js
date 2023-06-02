@@ -2,25 +2,33 @@
 import './App.css';
 import { BrowserRouter,  Route, Routes } from 'react-router-dom';
 import Home from './Pages/home';
-import About from './Pages/about';
-import Contact from './Pages/contact';
-import NavBar from './Components/navbar';
+import Login from './Pages/login'
+import SignupForm from './Pages/signup';
+import Cart from './Components/cart/cart';
+import { useState } from 'react';
+import { Provider } from 'react-redux';
+import store from './store/store';
+import AdminProduct from './Admin/AdminProduct';
+import AdminManageProduct from './Admin/AdminManageProduct';
+import ManageUsers from './Admin/ManageUsers';
+
 export default function App() {
-  return (
-    <div>
-    
+  return(
+    <Provider store={store}>
     <BrowserRouter>
-    <div>
-    <NavBar />
-    </div>
-    <div style={{ display: 'flex' }}>
+    <div className='top'>
       <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/about" element={<About/>}/>
-          <Route path="/contact" element={<Contact/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path='/signup' element={<SignupForm/>}/>
+          <Route path='/cart' element={<Cart />}/>
+          <Route path="/admin/products/:page?" element={< AdminProduct/>}/>
+          <Route path="/admin/add/:name?" element={< AdminManageProduct/>}/>
+          <Route path="/admin/users/:page?" element={<ManageUsers/>}/>
+          <Route path="/:page?" element={<Home />}/>
+          
       </Routes>
       </div>
     </BrowserRouter>
-    </div>
+    </Provider>
     );
 }

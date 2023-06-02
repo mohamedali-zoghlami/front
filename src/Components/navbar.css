@@ -2,6 +2,7 @@
     background-color: black;
     color: orange;
     padding: 10px;
+    width: 98.5%;
   }
   
   .navbar-brand {
@@ -37,44 +38,13 @@
     color: black;
   }
 
-  
-.search-bar {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 20px;
-    padding: 5px;
-    width: 30%;
-    margin-left: auto;
-    margin-right: auto ;
-  }
-  
-  .search-bar input {
-    border: none;
-    outline: none;
-    
-    background-color: transparent;
-    margin-right: 5px;
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .search-bar button {
-    border: none;
-    outline: none;
-    background-color: transparent;
-    cursor: pointer;
-    padding: 5px;
-    margin-left: auto;
-  }
-  
-  .search-bar button i {
-    margin-left: auto;
-    color: orange;
-  }
+
 
   .navbar-icons {
+    position: absolute;
+    right: 1%;
     display: flex;
+    margin-right: 10;
   }
   
   .navbar-icons button {

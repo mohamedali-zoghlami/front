@@ -1,0 +1,79 @@
+.orient{
+    display: flex;
+    
+
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 5px;
+  width: 200%;
+  margin-left: auto;
+  margin-right: auto ;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  
+  background-color: transparent;
+  margin-right: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto ;
+  }
+  
+  .item {
+    flex-basis: calc(33.33%); /* Adjust as needed */
+   
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 10px;
+  }
+  
+  .selectList{
+    flex-direction: row;
+    display: flex;
+    margin-top: 1%;
+    margin-left: 30%;
+    width: 13%;
+  }
+  .pagination a{
+    padding: 5px 10px;
+    width: 2%;
+    text-align: center;
+    margin: 0 5px;
+    border: none;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+  }
+  .pagination a:hover {
+    background-color: black;
+    color: white;
+  }
+  
+  .pagination a.active{
+    background-color: orange;
+
+    font-weight: bold;
+  }
+
+  .center
+  { 
+    margin-left: 8%;
+
+  }

@@ -1,34 +1,39 @@
 import React, { useState } from 'react';
 import './navbar.css'
-import { Link } from 'react-router-dom';
-import { FaUserCircle, FaShoppingCart } from 'react-icons/fa';
+import { Link, useNavigate, } from 'react-router-dom';
+import {  FaShoppingCart, FaSignOutAlt } from 'react-icons/fa';
+import { removeAll } from '../store/cartSlice';
+import { useDispatch } from 'react-redux';
 
-export default function NavBar() {
-    const [cartCount, setCartCount] = useState(0);
-  return <nav class="navbar">
+export default function NavBar({}) {
+  const navigate=useNavigate();
+  const dispatch=useDispatch();
+  const handleLogOut=()=>
+  {
+    dispatch(removeAll());
+    localStorage.removeItem("token");
+    localStorage.removeItem("admin")
+    navigate("/login");
+  }
+  return (
+  <nav class="navbar">
   <ul class="navbar-menu navbar-brand ">
     <li><Link to="/">E-Buy</Link></li>
-    <div className="search-bar">
-        <input type="text" placeholder="Search" onChange={handleSearch} />
-        <button> <i className="fa fa-search">Search</i></button>
-      </div>
+    
       <div className="navbar-icons">
+        
         <button>
-          <FaUserCircle />
-        </button>
-        <button>
+        <Link to="/cart">
           <FaShoppingCart />
-          {cartCount > 0 && (
-            <span className="cart-count">{cartCount}</span>
-          )}
+        </Link>
         </button>
+
+        <button onClick={handleLogOut}>
+          <FaSignOutAlt />
+        </button>
+      
+          
       </div>
   </ul>
-</nav>;
+</nav>);
 }
-
-const handleSearch = (event) => {
-    // Handle search logic here
-    const searchTerm = event.target.value;
-    console.log('Search term:', searchTerm);
-  };
