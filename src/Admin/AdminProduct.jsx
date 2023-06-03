@@ -6,7 +6,7 @@ import AdminNavbar from "./AdminNavbar";
 import Pagination from "../Components/pagination";
 import Card2 from "./card2";
 import { useNavigate, useParams } from "react-router-dom";
-
+import Cookie from "js-cookie";
 
 function AdminProduct() {
   const param=useParams();
@@ -50,11 +50,11 @@ function AdminProduct() {
     setBrand(event.target.value);
   };
   useEffect(() => {
-    const admin= localStorage.getItem("admin");
-    const token= localStorage.getItem("token");
+    const admin= Cookie.get("role");
+    const token= Cookie.get("token");
     if(!token || token.length===0)
       navigate("/login")
-    if(!admin || admin.length===0)
+      if(!admin || admin!="Admin")
       navigate("/")
     fetchData();
   }, [currentPage,category,brand,count]);
@@ -75,6 +75,7 @@ function AdminProduct() {
                 <Card2 key={item.id_prod} description={item.description} quantity={item.quantity} 
                 id={item.id_prod} 
                 category={item.category} brand={item.brand}
+                stock={item.quantity}
                 name={item.name} image={item.image} price={item.price}/>
               </div>
             ))}

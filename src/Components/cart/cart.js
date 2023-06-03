@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import './cart.css'
 import NavBar from "../navbar";
 import { useNavigate } from "react-router-dom";
+import Cookie from "js-cookie";
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { decreaseQuantity, increaseQuantity, removeFromCart,removeAll } from '../../store/cartSlice';
 function Cart  ({})  
@@ -32,7 +33,7 @@ function Cart  ({})
       orders:result_array
     }
     const objetJson=JSON.stringify(objet);
-    const token= localStorage.getItem("token");
+    const token= Cookie.get("token");
     try{
       const response = await fetch('http://localhost:3000/products/order', {
         method: 'POST',
@@ -52,9 +53,10 @@ function Cart  ({})
         navigate("/");
       }
       else
-      if(response.status===406)
-      {Swal.fire({
-        text:"Our stock is insufficient for meeting your order",
+      { const error= await response.json()
+        console.error(error);
+        Swal.fire({
+        text:error.message,
         title:"Erreur !",confirmButtonText: 'OK',icon:"error"
         });
 
@@ -90,7 +92,7 @@ function Cart  ({})
   };
 
   useEffect(() => {
-    const token= localStorage.getItem("token");
+    const token= Cookie.get("token");
     if(!token || token.length===0)
       navigate("/login")
     handlePrice();

@@ -10,7 +10,7 @@
           justify-content: space-between;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-      
+
 }
 
 .AdminSideBar {
@@ -28,7 +28,14 @@
   justify-content: space-between;
   margin-bottom: 20px;
 }
-
+.mebuy a{
+  color: black;
+  margin-right: 50%
+}
+.mebuy a:hover
+{
+  color: orange;
+}
 .rows .item {
   margin-right: 12%;
   margin-left: 12%;
@@ -46,15 +53,14 @@
 .AdminNavbar > div {
   text-align: center;
   align-items: center;
-  gap: 20px;
+
   /* border: 1px solid wheat; */
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
-  padding: auto;
-  margin-left: 20%;
+  padding: 20;
+  margin-left: 10%;
   /* margin: auto; */
 }
-
 
 .SidebarList {
   height: auto;
@@ -65,4 +71,9 @@
   background-color: black;
   padding: 20px;
   gap: 30px;
+}
+.SidebarList a
+{
+  color: white;
+  font-weight: bold;
 }

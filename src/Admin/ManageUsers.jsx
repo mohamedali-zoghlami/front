@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  Grid,
-} from "@chakra-ui/react";
-import axios from "axios";
 import AdminNavbar from "./AdminNavbar";
 import AdminSidebar from "./AdminSidebar";
 import { useNavigate, useParams } from "react-router-dom";
+import Cookie from "js-cookie";
+import './table.css'
 import Pagination from "../Components/pagination";
-
+import Swal from "sweetalert2";
 function ManageUsers() {
   const params=useParams();
   const navigate=useNavigate();
@@ -25,7 +16,7 @@ function ManageUsers() {
     try {
       let url=`http://localhost:3000/users/all/${currentPage}`;
       console.log(url);
-      const token= localStorage.getItem("token");
+      const token= Cookie.get("token");
       const response = await fetch(url, {
         headers: {
           'Content-Type': 'application/json',
@@ -33,13 +24,12 @@ function ManageUsers() {
         },
       });
       const jsonData = await response.json();
-      console.log(jsonData)
       setUserData(jsonData);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
     try {
-      const token= localStorage.getItem("token")
+      const token= Cookie.get("token");
       let url=`http://localhost:3000/user/count`;
       
       const response =await fetch(url, {
@@ -50,7 +40,6 @@ function ManageUsers() {
         },
       });
       const jsonData = await response.json();
-      console.log(jsonData)
       setCount(Math.ceil(jsonData/9));
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -59,49 +48,96 @@ function ManageUsers() {
   };
 
   useEffect(() => {
-    const admin= localStorage.getItem("admin");
-    const token= localStorage.getItem("token");
+    const admin= Cookie.get("role");
+    const token= Cookie.get("token");
     if(!token || token.length===0)
       navigate("/login")
-    if(!admin || admin.length===0)
+    if(!admin || admin!="Admin")
       navigate("/")
     getData();
   }, [currentPage]);
+
+  const handleClick=async (email)=>{
+    
+    Swal.fire({
+      title: 'Are you sure you want to remove this user?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token= Cookie.get("token");
+        try {
+         
+            const response = await fetch(`http://localhost:3000/users/oneuser/${email}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'jwt':token
+            },
+            
+          })
+          console.log(response)
+          if(response.ok)
+          {
+            Swal.fire(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+            )
+            navigate("/admin/users/1")
+
+          }
+            else
+            {const error= await response.json()
+              Swal.fire({
+                text:error.message,
+                title:"Erreur !",confirmButtonText: 'OK',icon:"error"
+                });
+            }
+            }
+            catch(e)
+                {Swal.fire({
+                  text:e,
+                  title:"Erreur !",confirmButtonText: 'OK',icon:"error"
+                  });
+                }
+      }
+    })
+  }
+  
+
 
   return (
     <>
       <AdminNavbar />
       <AdminSidebar />
-      <Grid width="40%" h={"auto"} ml="20px" m={"auto"}>
-        <TableContainer width="90%" h={"auto"} ml="150px" mb="20px">
-          <Table variant="simple">
-            <Thead bg="#285e61">
-              <Tr>
-                <Th color={"white"}>S.No</Th>
-                <Th color={"white"}>Name</Th>
-                <Th color={"white"}>User Email</Th>
-                <Th color={"white"}>User Tel</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {userData.length > 0 &&
-                userData.map((el, i) => {
-                  return (
-                    <Tr key={el.id}>
-                      <Td>{el.id}</Td>
-                      <Td>
-                        {el.name} {el.lastname}
-                      </Td>
-                      <Td>{el.email}</Td>
-                      <Td>{el.tel}</Td>
-                    </Tr>
-                  );
-                })}
-            </Tbody>
-          </Table>
-        </TableContainer>
-        <Pagination currentPage={currentPage} totalPages={count} path={"/admin/users/"}/>
-      </Grid>
+      <table className="user-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Telephone</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {userData.map((user) => (
+          <tr key={user.id}>
+            <td>{user.id}</td>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            <td>{user.tel}</td>
+            <td><button onClick={()=>handleClick(user.email)}>Remove</button></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <Pagination currentPage={currentPage} totalPages={count} path={"/admin/users/"}/>
     </>
   );
 }

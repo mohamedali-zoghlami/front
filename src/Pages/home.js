@@ -3,12 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import "./boutique.css"
 import  Card  from '../Components/card';
 import '../Components/card.css';
-import {product} from '../db'
 import Pagination from '../Components/pagination';
 import './select.css'
 import NavBar from '../Components/navbar';
-import { connect } from 'react-redux';
-import axios from 'axios';
+
+import Cookie from 'js-cookie';
 
 export default function Home({})
 { 
@@ -32,7 +31,7 @@ export default function Home({})
   }
   const navigate=useNavigate();
   useEffect(() => {
-    const token=localStorage.getItem("token")
+    const token=Cookie.get("token")
     if(!token || token.length===0)
       navigate("/login")
     const fetchData = async () => {
@@ -46,6 +45,7 @@ export default function Home({})
           url+= `${category?"&":brand?"&":"?"}name=${name}`
         const response = await fetch(url);
         const jsonData = await response.json();
+        console.log(jsonData)
         setRecords(jsonData);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -106,7 +106,7 @@ export default function Home({})
           {
              records.slice(index, index + 3).map((item, innerIndex) => (
               <div  key={innerIndex} className="item" >
-                <Card key={item.id} name={item.name} image={item.image} price={item.price}/>
+                <Card key={item.id} name={item.name} image={item.image} quantity={item.quantity} price={item.price}/>
               </div>
             ))}
           </div>))} 

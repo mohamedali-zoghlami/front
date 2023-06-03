@@ -13,6 +13,8 @@ import AdminManageProduct from './Admin/AdminManageProduct';
 import ManageUsers from './Admin/ManageUsers';
 import History from './Components/cart/history';
 import OrderHistory from './Components/cart/orderdetail';
+import Userinfo from './user/users';
+import UserEdit from './user/useredit';
 
 export default function App() {
   return(
@@ -26,6 +28,8 @@ export default function App() {
           <Route path="/admin/products/:page?" element={< AdminProduct/>}/>
           <Route path="/admin/add/:name?" element={< AdminManageProduct/>}/>
           <Route path="/admin/users/:page?" element={<ManageUsers/>}/>
+          <Route path='/user' element={<Userinfo/>}/>
+          <Route path='/user/edit' element={<UserEdit/>}/>
           <Route path="/history" element={<History/>}/>
           <Route path="/history/:id" element={<OrderHistory/>}/>
           <Route path="/:page?" element={<Home />}/>

@@ -1,0 +1,40 @@
+.user-table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-left: 19%;
+    margin-bottom: 1%;
+  }
+  
+  .user-table th,
+  .user-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .user-table th {
+    background-color: black;
+    color: white;
+  }
+  
+  .user-table tr{
+    background-color: white;
+  }
+  
+  .user-table tr:hover {
+    background-color: black;
+    color: white;
+    
+  }
+  .user-table tr td button {
+    padding: 5px 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    border: none;
+    outline: none;
+    color: black;
+    background-color: orange;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+ 

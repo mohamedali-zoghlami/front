@@ -4,8 +4,10 @@ import './login.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {loginUser} from "../store/userSlice.js"
-import Cookies from 'js-cookie';
-
+import Cookie from 'js-cookie';
+import encryptData from "../cryptage"
+import hashData from '../cryptage';
+import Swal from 'sweetalert2';
 
 function Login() {
   const dispatch=useDispatch()
@@ -16,7 +18,6 @@ function Login() {
       }
     );
  
-    const [error,seterror]=useState("");
     const navigate=useNavigate();
     const handleInputChange = (event) => {
       const { name, value } = event.target;
@@ -41,16 +42,34 @@ function Login() {
     
           if (response.ok) {
             const jsonData=await response.json();
-            console.log(jsonData);
-            localStorage.setItem('token', jsonData.token);
-            if(user.username==="admin"||user.username==="doudi1")
-              localStorage.setItem('admin',"admin")
+            const role= jsonData.role;
+            Cookie.set("role",role,
+            {
+              expires:30,
+              secure:true,
+              sameSite:'strict'
+            })
+
+              Cookie.set("token",jsonData.token,
+              {
+                expires:30,
+                secure:true,
+                sameSite:'strict'
+              })
             navigate("/");
           } else {
-            seterror('Login failed');
+            const error= await response.json()
+        Swal.fire({
+        text:error.message,
+        title:"Erreur !",confirmButtonText: 'OK',icon:"error"
+        });
+
           }
         } catch (error) {
-          seterror(error);
+          Swal.fire({
+            text:error.message,
+            title:"Erreur !",confirmButtonText: 'OK',icon:"error"
+            });
         }
 
       };
@@ -87,21 +106,11 @@ function Login() {
       </div>
       <p>Vous êtes pas inscrit? <Link to="/signup" className="inscrit">S'inscrire maintenant !</Link></p>
       <button type="submit">Log in"</button>
-      {
-        error&&(
-          <div className='alert alert-danger' role='alert'>{error}</div>
-        )
-      }
       </div>
     </form>
       </MDBRow>
 
-      <div className="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-
     
-
-
-      </div>
 
     </MDBContainer>
   );

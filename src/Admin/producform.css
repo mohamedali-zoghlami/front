@@ -1,4 +1,4 @@
-.sign-form {
+.prod-form {
     margin-top: 3%;
     margin-left: 25%;
     width: 40%;
@@ -8,7 +8,7 @@
         padding: 1%;
   }
   
-  .sign-form label {
+  .prod-form label {
     display: flex;
     margin-bottom: 10px;
     margin-left: 8%;
@@ -17,10 +17,11 @@
   p{
     margin-left: 8%;
   }
-  .sign-form input[type="email"],
-  .sign-form input[type="text"],
-  .sign-form select,
-  .sign-form input[type="password"] {
+  .prod-form input[type="email"],
+  .prod-form input[type="number"],
+  .prod-form input[type="text"],
+  .prod-form select,
+  .prod-form input[type="password"] {
     width: 80%;
     padding: 8px;
     margin-bottom: 15px;
@@ -31,9 +32,8 @@
     display: flex;
   }
   
-  .sign-form button[type="submit"] {
-    background-color: #4caf50;
-    color: #fff;
+  .prod-form button {
+    
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
@@ -42,7 +42,24 @@
     margin-right: auto;
     display: flex;
   }
-  
-  .sign-form button[type="submit"]:hover {
+  .prod-form button[type="submit"]
+  {
+    background-color: #4caf50;
+    color: black;
+
+  }
+  .prod-form button[type="submit"]:hover {
     background-color: black;
+    color: white;
+  }
+
+  .prod-form button[type="delete"]
+  {
+    background-color: red;
+    color: white;
+
+  }
+  .prod-form button[type="delete"]:hover {
+    background-color: black;
+
   }

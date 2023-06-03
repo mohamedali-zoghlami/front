@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './signup.css';
 import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 function SignupForm() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -57,6 +58,10 @@ function SignupForm() {
       });
 
       if (response.ok) {
+        Swal.fire({
+          text:"Compte créé avec succès",
+          title:"Succes !",confirmButtonText: 'Cool',icon:"success"
+          });  
         setUsername('');
         setEmail('');
         setPassword('');
@@ -66,10 +71,18 @@ function SignupForm() {
         setTel('');
         navigate("/login");
       } else {
-        setError("Erreur");
+        Swal.fire({
+        text:"Couldn't create user",
+        title:"Erreur !",confirmButtonText: 'OK',icon:"error"
+        });
+
       }
     } catch (error) {
-      setError(error)
+
+      Swal.fire({
+      text:error,
+      title:"Erreur !",confirmButtonText: 'OK',icon:"error"
+      });
     }
     
   };
@@ -132,12 +145,6 @@ function SignupForm() {
       </div>
       <p>Vous avez déja un compte? <Link to="/login" className="inscrit">Se connecter !</Link></p>
       <button type="submit">Sign Up</button>
-
-      {
-        error&&(
-          <div className='alert alert-danger' role='alert'>{error}</div>
-        )
-      }
     </form>
   );
 }

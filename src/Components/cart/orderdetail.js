@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import NavBar from "../navbar";
 import './cart.css';
+import Cookie from "js-cookie";
 import { json, useNavigate, useParams } from "react-router-dom";
 const OrderHistory=()=>
 {   const params= useParams();
@@ -12,7 +13,7 @@ const OrderHistory=()=>
 
      
     const fetchData=async()=>{
-    const token= localStorage.getItem("token");
+    const token= Cookie.get("token");
     try {
     const response = await fetch(`http://localhost:3000/products/history/${id}`)
             const jsonData=await response.json();
@@ -26,7 +27,7 @@ const OrderHistory=()=>
                 {console.log(e)
                 }}
     useEffect( () => {
-        const token= localStorage.getItem("token");
+        const token= Cookie.get("token");
         if(!token || token.length===0)
           navigate("/login")
          fetchData();

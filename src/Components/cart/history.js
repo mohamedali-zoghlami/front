@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react"
 import NavBar from "../navbar";
 import './cart.css';
+import Cookie from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import moment from "moment/moment";
 const History=()=>
 {   const navigate=useNavigate();
      const [records,setRecords]=useState([]);
     const fetchData=async()=>{
-    const token= localStorage.getItem("token");
+    const token= Cookie.get("token");
     try {
     const response = await fetch('http://localhost:3000/products/history', {
             method: 'POST',
@@ -17,6 +19,13 @@ const History=()=>
           })
           if(response.ok)
           {const jsonData=await response.json();
+            console.log(jsonData)
+            jsonData.map((item)=>{
+              item.heure=moment(item.date_cmd).format("HH:mm");
+              item.date_cmd=moment(item.date_cmd).format("YYYY-MM-DD");
+            
+          
+          })
             setRecords(jsonData);}
             else
             {
@@ -27,11 +36,11 @@ const History=()=>
                 {console.log(e)
                 }}
     useEffect(() => {
-        const token= localStorage.getItem("token");
+        const token= Cookie.get("token");
         if(!token || token.length===0)
           navigate("/login")
         fetchData();
-      });
+      },[]);
       return(
         <>
         <NavBar />
@@ -39,7 +48,7 @@ const History=()=>
     {records.map((item) => (
       <div className="cart_box" key={item.id}>
         <div className="cart_img">
-          <p>{item.date_cmd}</p>
+          <p>Date commande : {item.date_cmd} à {item.heure}</p>
         </div>
         <div>
           <button>{item.id}</button>

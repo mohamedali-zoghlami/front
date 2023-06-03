@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./Admin.css";
+import './producform.css'
 
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  Button,
-  useToast,
-} from "@chakra-ui/react";
 import AdminNavbar from "./AdminNavbar";
 import AdminSidebar from "./AdminSidebar";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import Cookie from "js-cookie";
+import hashData from "../cryptage";
 const AdminManageProduct = ({}) => {
   const param=useParams()
   const navigate=useNavigate();
@@ -49,11 +43,11 @@ const AdminManageProduct = ({}) => {
   };
 
   useEffect(() => {
-    const admin= localStorage.getItem("admin");
-    const token= localStorage.getItem("token");
+    const admin=  Cookie.get("role");
+    const token= Cookie.get("token");
     if(!token || token.length===0)
       navigate("/login")
-    if(!admin || admin.length===0)
+    if(!admin || admin!=="Admin")
       navigate("/")
     fetchData();
   }, [param]);
@@ -70,21 +64,34 @@ const AdminManageProduct = ({}) => {
       "brand":product.brand,
       "quantity":product.quantity
     }
+    let erreur="";
+    if(data.name.length===0)
+      erreur="Name est obligatoire"
+    else if(data.price<=0)
+      erreur="Price doit être supérieur à 0";
+    else if(data.quantity<0)
+      erreur="Quantité doit être positive";
+    
+    if (erreur.length===0)
+    {
     let url="http://localhost:3000/products/";
     let methode;
+    let product="Produit "
     if(param.name)
     {
       methode="PATCH";
       url+=param.name;
+      product+="modifié !"
     }
     else
     {
       methode="POST";
       url+="add"
+      product+="ajouté !"
     }
     try {
       console.log(data);
-      const token= localStorage.getItem("token");
+      const token= Cookie.get("token");
       const response = await fetch(url, {
         method: methode,
         headers: {
@@ -95,28 +102,48 @@ const AdminManageProduct = ({}) => {
       });
 
       if (response.ok) {
-        
         Swal.fire({
-          text:"Produit ajouté ou modifier !",
+          text:product,
           title:"Succes !",confirmButtonText: 'Cool',icon:"success"
           });
+          navigate("/admin/products")
       } else {
+        const error=await response.json();
         Swal.fire({
-          text:response.status,
+          text:error.message,
           title:"Erreur",confirmButtonText: 'Cool',icon:"error"
           });
       }
     } catch (error) {
       Swal.fire({
         text:error,
-        title:"Erreur !",confirmButtonText: 'Cool',icon:"Error"
+        title:"Erreur !",confirmButtonText: 'Cool',icon:"error"
         });
       
     }
+    }else
+    {
+      Swal.fire({
+        text:erreur,
+        title:"Erreur !",confirmButtonText: 'Cool',icon:"error"
+        });
+    }
   }
-  const handlesubmit2= async ()=>
-      {try{
-        const token= localStorage.getItem("token");
+  const handlesubmit2= async (e)=>
+      {   
+        e.preventDefault();
+      Swal.fire({
+      title: 'Are you sure you want to remove this user?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try{
+        const token= Cookie.get("token");
         const response = await fetch(`http://localhost:3000/products/${param.name}`, {
           method: "DELETE",
           headers: {
@@ -141,30 +168,24 @@ const AdminManageProduct = ({}) => {
         Swal.fire({
           text:error,
           title:"Erreur !",confirmButtonText: 'Cool',icon:"error"
-          });
-        
-      }
+          });}
+        } 
+      })
       }
   
   return (
     <>
       <AdminNavbar />
       <AdminSidebar />
-      <FormControl
+      <form
+      className="prod-form"
         onSubmit={(event)=>{handlesubmit(event)}}
-        width="30%"
-        h={"auto"}
-        m="auto"
-        border={"1px solid gainsboro"}
-        mt={"20px"}
-        mb={"20px"}
-        gap={"20px"}
-        bg={"#f7f8f7"}
       >
-        {param.name?<FormLabel mt={"12px"}>{product.name}</FormLabel>:<></>}
-
-        <FormLabel mt={"12px"}>Image</FormLabel>
-        <Input
+        {param.name?<label >{product.name} <button type="delete" onClick={(event)=>{handlesubmit2(event)}}>
+          Delete Item
+        </button></label>:<></>} 
+        <label  >Image</label>
+        <input
           type="text"
           value={product.image}
           name="image"
@@ -172,8 +193,8 @@ const AdminManageProduct = ({}) => {
           required
         />
 
-        <FormLabel mt={"12px"}>Description</FormLabel>
-        <Input
+        <label >Description</label>
+        <input
           type="text"
           value={product.description}
           name="description"
@@ -183,8 +204,8 @@ const AdminManageProduct = ({}) => {
 
         {param.name?<></>:
         <>
-        <FormLabel mt={"12px"}>Name</FormLabel>
-        <Input
+        <label >Name</label>
+        <input
           type="text"
           value={product.name}
           name="name"
@@ -193,8 +214,8 @@ const AdminManageProduct = ({}) => {
         />
         </>
          }
-        <FormLabel mt={"12px"}>Quantity</FormLabel>
-        <Input
+        <label >Quantity</label>
+        <input
           type="number"
           value={product.quantity}
           name="quantity"
@@ -202,8 +223,8 @@ const AdminManageProduct = ({}) => {
           required
         />
 
-        <FormLabel mt={"12px"}>Price</FormLabel>
-        <Input
+        <label >Price</label>
+        <input
           type="number"
           value={product.price}
           name="price"
@@ -214,8 +235,8 @@ const AdminManageProduct = ({}) => {
        
 
      
-        <FormLabel mt={"12px"}>Category</FormLabel>
-        <Select
+        <label mt={"12px"}>Category</label>
+        <select
           name="category"
           placeholder={product.category}
           onChange={(e) => handleChange(e)}
@@ -225,12 +246,12 @@ const AdminManageProduct = ({}) => {
           <option value={"garcon"}>Garcon</option>
           <option value={"fille"}>Fille</option>
 
-        </Select>
+        </select>
 
-        <FormLabel mt={"12px"} mb={"10px"}>
+        <label mt={"12px"} mb={"10px"}>
           Brand
-        </FormLabel>
-        <Select
+        </label>
+        <select
           name="brand"
           placeholder={product.brand}
           onChange={(e) => handleChange(e)}
@@ -245,14 +266,12 @@ const AdminManageProduct = ({}) => {
           >
             Bershka
           </option>
-        </Select>
-        <Button ml={"155px"} mt={"20px"} bg={"skyblue"} onClick={(event)=>{handlesubmit(event)}}>
+        </select>
+        <button type="submit" onClick={(event)=>{handlesubmit(event)}}>
           {param.name?"Update product":"Add Product"}
-        </Button>
-        {param.name?<Button ml={"155px"} mt={"20px"} bg={"skyblue"} onClick={(event)=>{handlesubmit2(event)}}>
-          Delete Item
-        </Button>:<></>}
-      </FormControl>
+        </button>
+        
+      </form>
     </>
   );
 };

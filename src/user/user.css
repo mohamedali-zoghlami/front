@@ -1,0 +1,55 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  article {
+    width: 60%;
+    margin: auto;
+  }
+  
+
+  
+  .user_box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    border-bottom: 2px solid orange;
+    padding-bottom: 5px;
+  }
+  
+  .user_box div:nth-child(2) button {
+    padding: 5px 10px;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .user_box div:nth-child(3) button {
+    padding: 5px 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    border: none;
+    outline: none;
+    color: white;
+    background-color: green;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .user_box div:nth-child(3) button:hover {
+    background-color: black;
+  }
+  .user_box div:nth-child(4) button {
+    padding: 5px 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    border: none;
+    outline: none;
+    color: white;
+    background-color: red;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .user_box div:nth-child(4) button:hover {
+    background-color: black;
+  }
